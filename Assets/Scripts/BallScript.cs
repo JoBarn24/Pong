@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BallScript : MonoBehaviour
 {
-    public float speed;
+    public float speed = 10f;
     private Rigidbody rb;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,19 +34,15 @@ public class BallScript : MonoBehaviour
             newDirection.z += factor * speed;
             
             float currentSpeed = rb.linearVelocity.magnitude;
-            float newSpeed = rb.linearVelocity.magnitude;
+            float newSpeed = currentSpeed + 0.5f;
+            Debug.Log("Ball speed:" + newSpeed);
             
-            rb.linearVelocity = newDirection.normalized * newSpeed * 1.2f;
+            rb.linearVelocity = newDirection.normalized * newSpeed;
         }
         else if (other.gameObject.CompareTag("Wall"))
         {
-            Vector3 wall = Vector3.right;
-            Vector3 newDirection = Vector3.Reflect(rb.linearVelocity, wall);
-            
-            float currentSpeed = rb.linearVelocity.magnitude;
-            float newSpeed = rb.linearVelocity.magnitude;
-            
-            rb.linearVelocity = newDirection.normalized * newSpeed;
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, rb.linearVelocity.y, -rb.linearVelocity.z).normalized *
+                                rb.linearVelocity.magnitude;
         }
     }
 }
