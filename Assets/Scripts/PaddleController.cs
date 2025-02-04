@@ -8,7 +8,6 @@ public class PaddleController : MonoBehaviour
     public KeyCode downKey;
 
     private Rigidbody rb;
-    private int count;
     private float upperBoundary = 12.99f;
     private float lowerBoundary = -12.99f;
 
@@ -16,8 +15,6 @@ public class PaddleController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        count = 0;
-        
     }
 
     // Update is called once per frame
