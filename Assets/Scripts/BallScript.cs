@@ -45,5 +45,19 @@ public class BallScript : MonoBehaviour
                                 rb.linearVelocity.magnitude;
         }
     }
+
+    public void ResetBall(string direction)
+    {
+        if (direction == "left")
+        {
+            transform.position = new Vector3(-10, 1, 0);
+            rb.linearVelocity = new Vector3(speed, 0, 0);
+        }
+        else if (direction == "right")
+        {
+            transform.position = new Vector3(10, 1, 0);
+            rb.linearVelocity = new Vector3(-speed, 0, 0);
+        }
+    }
 }
 
