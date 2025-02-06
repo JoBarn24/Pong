@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI rightScoreText;
+    public TextMeshProUGUI leftScoreText;
     public GameObject ball;
 
     private int leftScore = 0;
@@ -27,21 +28,19 @@ public class ScoreManager : MonoBehaviour
                 Debug.Log("Right player scored! Score: " + leftScore.ToString() + " | " + rightScore.ToString());
                 ballScript.ResetBall("left");
             }
-            UpdateScoreText();
         }
     }
     private void AddPointToLeft()
     {
         leftScore++;
+        leftScoreText.text = leftScore.ToString();
+        Debug.Log(leftScore);
     }
 
     private void AddPointToRight()
     {
         rightScore++;
-    }
-
-    private void UpdateScoreText()
-    {
-        scoreText.text = leftScore + " | " + rightScore;
+        rightScoreText.text = rightScore.ToString();
+        Debug.Log(rightScore);
     }
 }
