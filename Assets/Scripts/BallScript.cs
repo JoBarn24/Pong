@@ -59,5 +59,11 @@ public class BallScript : MonoBehaviour
             rb.linearVelocity = new Vector3(-speed, 0, 0);
         }
     }
+
+    public void StopBall()
+    {
+        rb.linearVelocity = Vector3.zero;
+        Debug.Log("Ball stopped.");
+    }
 }
 

@@ -3,44 +3,104 @@ using UnityEngine;
 
 public class ScoreManager : MonoBehaviour
 {
-    public TextMeshProUGUI rightScoreText;
-    public TextMeshProUGUI leftScoreText;
+    public TextMeshProUGUI rightText;
+    public TextMeshProUGUI leftText;
+    public TextMeshProUGUI winText;
     public GameObject ball;
 
     private int leftScore = 0;
     private int rightScore = 0;
+    private bool gameOver = false;
 
     private void OnTriggerEnter(Collider other)
     {
+        if (gameOver)
+        {
+            return;
+        }
+        
         BallScript ballScript = ball.GetComponent<BallScript>();
         
-        if (other.CompareTag("Ball"))
+        if (other.CompareTag("Ball") && gameOver == false)
         {
             if (gameObject.name == "LeftGoal")
             {
                 AddPointToRight();
-                Debug.Log("Left player scored! Score: " + leftScore.ToString() + " | " + rightScore.ToString());
+                Debug.Log("Right player scored! Score: " + leftScore + " | " + rightScore);
                 ballScript.ResetBall("right");
+
+                if (!gameOver)
+                {
+                    ballScript.StopBall();
+                }
             }
             else if (gameObject.name == "RightGoal")
             {
                 AddPointToLeft();
-                Debug.Log("Right player scored! Score: " + leftScore.ToString() + " | " + rightScore.ToString());
+                Debug.Log("Left player scored! Score: " + leftScore + " | " + rightScore);
                 ballScript.ResetBall("left");
+                if (gameOver)
+                {
+                    ballScript.StopBall();
+                }
             }
         }
     }
     private void AddPointToLeft()
     {
         leftScore++;
-        leftScoreText.text = leftScore.ToString();
-        Debug.Log(leftScore);
+        leftText.text = leftScore.ToString();
+        CheckGameOver();
     }
 
     private void AddPointToRight()
     {
         rightScore++;
-        rightScoreText.text = rightScore.ToString();
-        Debug.Log(rightScore);
+        rightText.text = rightScore.ToString();
+        CheckGameOver();
+    }
+
+    private void CheckGameOver()
+    {
+        if (leftScore >= 11)
+        {
+            gameOver = true;
+            
+            BallScript ballScript = ball.GetComponent<BallScript>();
+            ballScript.StopBall();
+            
+            Debug.Log("Left Paddle Wins!");
+            winText.text = "Left Paddle Wins!";
+            
+            Invoke("ResetGame", 10);
+        }
+        else if (rightScore >= 11)
+        {
+            gameOver = true;
+            
+            BallScript ballScript = ball.GetComponent<BallScript>();
+            ballScript.StopBall();
+            
+            Debug.Log("Right Paddle Wins!");
+            winText.text = "Right Paddle Wins!";
+            
+            Invoke("ResetGame", 10);
+        }
+    }
+
+    private void ResetGame()
+    {
+        leftScore = 0;
+        rightScore = 0;
+        
+        leftText.text = leftScore.ToString();
+        rightText.text = rightScore.ToString();
+        winText.text = "";
+        
+        BallScript ballScript = ball.GetComponent<BallScript>();
+        ballScript.ResetBall("left");
+        
+        gameOver = false;
+        Debug.Log("Game reset.");
     }
 }
