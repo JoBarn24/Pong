@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
@@ -7,11 +8,11 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI leftText;
     public TextMeshProUGUI winText;
     public GameObject ball;
-
-    private int leftScore = 0;
-    private int rightScore = 0;
+    public static int leftScore = 0;
+    public static int rightScore = 0;
+    
     private bool gameOver = false;
-
+    
     private void OnTriggerEnter(Collider other)
     {
         if (gameOver)
@@ -26,10 +27,10 @@ public class ScoreManager : MonoBehaviour
             if (gameObject.name == "LeftGoal")
             {
                 AddPointToRight();
-                Debug.Log("Right player scored! Score: " + leftScore + " | " + rightScore);
+                Debug.Log("Right player scored! Score: " + rightScore);
                 ballScript.ResetBall("right");
 
-                if (!gameOver)
+                if (gameOver)
                 {
                     ballScript.StopBall();
                 }
@@ -37,7 +38,7 @@ public class ScoreManager : MonoBehaviour
             else if (gameObject.name == "RightGoal")
             {
                 AddPointToLeft();
-                Debug.Log("Left player scored! Score: " + leftScore + " | " + rightScore);
+                Debug.Log("Left player scored! Score: " + leftScore);
                 ballScript.ResetBall("left");
                 if (gameOver)
                 {
@@ -100,7 +101,7 @@ public class ScoreManager : MonoBehaviour
         BallScript ballScript = ball.GetComponent<BallScript>();
         ballScript.ResetBall("left");
         
-        gameOver = false;
         Debug.Log("Game reset.");
+        gameOver = false;
     }
 }

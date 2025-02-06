@@ -3,6 +3,8 @@ using UnityEngine;
 public class BallScript : MonoBehaviour
 {
     public float speed = 10f;
+    public ParticleSystem hitEffect;
+    
     private Rigidbody rb;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -25,6 +27,11 @@ public class BallScript : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Paddle"))
         {
+            if (hitEffect != null)
+            {
+                hitEffect.Play();
+            }
+            
             float paddleHeight = 4f;
             float factor = (transform.position.z - other.transform.position.z) / (paddleHeight/2);
 
